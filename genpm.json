@@ -1,0 +1,21 @@
+{
+  "$": 1,
+  "n": "@core/ai",
+  "v": "1.0.0",
+  "s": {
+    "en": "Streaming AI chat with versioned prompts, tool calling and usage/cost logging; model set by env",
+    "es": "Chat de IA con streaming, prompts versionados, tool calling y registro de uso y coste; modelo por env",
+    "pt-BR": "Chat de IA com streaming, prompts versionados, tool calling e registro de uso e custo; modelo por env",
+    "fr": "Chat IA en streaming : prompts versionnés, appels d’outils, suivi d’usage et de coût ; modèle via env",
+    "de": "KI-Chat mit Streaming, versionierten Prompts, Tool-Calling und Nutzungs-/Kostenprotokoll; Modell per Env",
+    "ja": "ストリーミング AI チャット：バージョン管理プロンプト、ツール呼び出し、使用量とコストの記録、モデルは環境変数で指定",
+    "zh-CN": "流式 AI 聊天：版本化提示词、工具调用、用量与成本记录，模型由环境变量指定",
+    "ko": "스트리밍 AI 채팅: 버전 관리 프롬프트, 도구 호출, 사용량·비용 기록, 모델은 환경 변수로 지정"
+  },
+  "d": "src/lib/ai",
+  "l": "MIT",
+  "k": ["ai", "llm", "chat", "streaming", "tools", "ai-sdk"],
+  "g": { "@core/db": "^1.0.0" },
+  "p": { "ai": "^7.0.0", "zod": "^4.1.8" },
+  "e": ["AI_MODEL", "AI_PROVIDER_API_KEY"]
+}
