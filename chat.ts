@@ -15,6 +15,24 @@ export async function recordUsage(
   await db.insert(aiUsage).values({ ...row, costMicroUsd: costMicroUsd(row.model, row.inputTokens, row.outputTokens) });
 }
 
+/** Límites de lo que el navegador puede mandar: cada mensaje y cada carácter cuestan tokens. */
+export const CHAT_LIMITS = { messages: 50, chars: 32_000 };
+
+export class ChatInputError extends Error {}
+
+/**
+ * Mensajes que llegan del cliente: solo `user` y `assistant` (un `system` del navegador reemplazaría tus prompts) y
+ * dentro de `CHAT_LIMITS`. Lanza `ChatInputError` si no se cumplen.
+ */
+export function sanitizeMessages(input: unknown): UIMessage[] {
+  if (!Array.isArray(input) || input.length === 0) throw new ChatInputError('messages required');
+  const messages = (input as UIMessage[]).filter((m) => m && (m.role === 'user' || m.role === 'assistant'));
+  if (messages.length === 0) throw new ChatInputError('messages required');
+  if (messages.length > CHAT_LIMITS.messages) throw new ChatInputError(`at most ${CHAT_LIMITS.messages} messages`);
+  if (JSON.stringify(messages).length > CHAT_LIMITS.chars * 2) throw new ChatInputError(`at most ${CHAT_LIMITS.chars} characters`);
+  return messages;
+}
+
 export async function streamChat(opts: {
   messages: UIMessage[];
   userId?: string | null;
@@ -30,7 +48,7 @@ export async function streamChat(opts: {
   const result = streamText({
     model,
     system: p.system,
-    messages: await convertToModelMessages(opts.messages, { tools }),
+    messages: await convertToModelMessages(sanitizeMessages(opts.messages), { tools }),
     tools,
     stopWhen: stepCountIs(opts.maxSteps ?? 5),
     ...(opts.abortSignal ? { abortSignal: opts.abortSignal } : {}),

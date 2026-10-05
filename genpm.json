@@ -1,7 +1,7 @@
 {
   "$": 1,
   "n": "@core/ai",
-  "v": "1.0.0",
+  "v": "1.0.1",
   "s": {
     "en": "Streaming AI chat with versioned prompts, tool calling and usage/cost logging; model set by env",
     "es": "Chat de IA con streaming, prompts versionados, tool calling y registro de uso y coste; modelo por env",

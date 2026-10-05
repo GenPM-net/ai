@@ -20,7 +20,8 @@ embeddings or chat history storage (store `UIMessage[]` yourself if you need it)
    Ask the user which provider and model to use; do not pick one for them.
 2. Generate and apply migrations (see `src/lib/db/AGENTS.md`).
 3. Hono: `app.route('/ai', aiRoutes({ getUserId: (c) => c.get('user')?.id, requireUser: true }))` after
-   `@core/auth`'s `sessionMiddleware` (omit both options without auth).
+   `@core/auth`'s `sessionMiddleware`. Without auth the route is public and anyone can spend the provider credits:
+   put it behind your own auth or a rate limit before deploying.
    Next.js: `app/api/ai/chat/route.ts` → `export const POST = chatRoute({ getUserId, requireUser: true })`.
    Delete the adapter of the framework you don't use.
 4. Frontend: `useChat({ transport: new DefaultChatTransport({ api: '/ai/chat' }) })` from `@ai-sdk/react`.
